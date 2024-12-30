@@ -1,0 +1,16 @@
+<!-- preview_calorie_needs.html -->
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}  <!-- Render the form fields -->
+    <button type="submit">Preview Calorie Needs</button>
+</form>
+
+{% if calorie_needs %}
+    <h3>Your Calorie Needs (Preview): {{ calorie_needs }} kcal/day</h3>
+{% endif %}
+
+{% if current_calorie_needs %}
+    <h4>Current Calorie Needs: {{ current_calorie_needs }} kcal/day</h4>
+{% else %}
+    <h4>No calorie needs set yet.</h4>
+{% endif %}

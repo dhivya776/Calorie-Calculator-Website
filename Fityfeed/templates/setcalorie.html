@@ -1,0 +1,45 @@
+{% extends 'main.html' %}
+{% load static%}
+{% block content %}
+<head>
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+	<style>
+		body,
+		html {
+			margin: 0;
+			padding: 0;
+            height: 100%;
+            background: #111316;
+		}
+		#form-title{
+			color: #d9083c;
+		}
+		.sub-head{
+			color: white;
+		}
+	</style>
+</head>
+<form method="POST" action="/setcalorie/">
+    {% csrf_token %}
+    <input type="number" name="age" placeholder="Age" required>
+    <input type="number" name="height" placeholder="Height (cm)" required>
+    <input type="number" name="weight" placeholder="Weight (kg)" required>
+    <select name="activity_level">
+        <option value="sedentary">Sedentary</option>
+        <option value="light">Lightly Active</option>
+        <option value="moderate">Moderately Active</option>
+        <option value="active">Very Active</option>
+    </select>
+    <select name="gender">
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+    </select>
+    <select name="goal">
+        <option value="lose">Lose Weight</option>
+        <option value="maintain">Maintain Weight</option>
+        <option value="gain">Gain Weight</option>
+    </select>
+    <button type="submit">Set Calorie Goal</button>
+</form>
+
+{% endblock %}

@@ -1,0 +1,116 @@
+{% load static %}
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&display=swap" rel="stylesheet">
+<style>
+  body {
+    font-family: 'Roboto Slab', sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+  }
+  .navbar {
+    font-family: 'Orbitron', sans-serif;
+  }
+  .container {
+    max-width: 800px;
+    margin-top: 40px;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  h3 {
+    font-family: 'Black Ops One', cursive;
+    color: #d9083c;
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+  .pdf-list {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  }
+  .pdf-list ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  .pdf-list li {
+    font-size: 18px;
+    margin-bottom: 12px;
+    padding: 12px;
+    background-color: #fff;
+    border-radius: 6px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+  }
+  .pdf-list li:hover {
+    transform: translateY(-5px);
+    background-color: #f4f4f4;
+  }
+  .pdf-list a {
+    color: #000000;
+    font-weight: 550;
+    text-decoration: none;
+  }
+  .pdf-list a:hover {
+    color: #d9083c;
+    text-decoration: underline;
+  }
+  .btn-back {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 24px;
+    background-color: #d9083c;
+    color: white;
+    font-weight: 600;
+    text-align: center;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+  }
+  .btn-back:hover {
+    background-color: #a5032b;
+    text-decoration: none;
+  }
+  .btn-view {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 8px 16px;
+    background-color: #c01111;
+    color: white;
+    font-weight: 600;
+    text-align: center;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+  }
+  .btn-view:hover {
+    background-color: #a5032b;
+    text-decoration: none;
+  }
+</style>
+
+<body>
+    
+    <div class="container">
+        <h3>Recipe Books</h3>
+        <div class="pdf-list">
+            <ul>
+                {% for document in documents %}
+                    <li>
+                        <a href="{{ document.file.url }}" Download>{{ document.title }}</a>
+                        <!-- Add View button next to download link -->
+                        <a href="{{ document.file.url }}" target="_blank" class="btn-view">View</a>
+                    </li>
+                {% empty %}
+                    <li>No PDFs available for download.</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <a href="{% url 'home' %}" class="btn-back">Back to Home</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Profile</title>
+</head>
+<body>
+    <h2>Your Profile</h2>
+    <p>Age: {{ userprofile.age }}</p>
+    <p>Height: {{ userprofile.height }} cm</p>
+    <p>Weight: {{ userprofile.weight }} kg</p>
+    <p>Activity Level: {{ userprofile.activity_level }}</p>
+    <p>Goal: {{ userprofile.goal }}</p>
+    <p>Calorie Goal: {{ userprofile.calorie_goal }} kcal</p>
+
+    <!-- Calorie feedback -->
+    <h3>{{ feedback }}</h3>
+
+    <!-- Form to update weight -->
+    <h3>Update Your Weight</h3>
+    <form method="POST">
+        {% csrf_token %}
+        <label for="weight">Weight (kg):</label>
+        <input type="number" id="weight" name="weight" value="{{ userprofile.weight }}" step="0.1">
+        <button type="submit">Update Weight</button>
+    </form>
+    <form method="post" action="{% url 'delete_profile' %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Delete Profile</button>
+    </form>
+    
+</body>
+</html>

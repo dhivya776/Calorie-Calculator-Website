@@ -1,0 +1,160 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            background: #111316;
+            font-family: 'Roboto Slab', serif;
+            color: #fff;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #d9083c;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+            text-align: left;
+            color: #fff;
+        }
+        th, td {
+            padding: 12px;
+        }
+        th {
+            background-color: #d9083c;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #222;
+        }
+        tr:hover {
+            background-color: #444;
+        }
+        button {
+            background-color: #d9083c;
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: white;
+            color: #d9083c;
+            border: 1px solid #d9083c;
+        }
+        .actions {
+            text-align: center;
+        }
+        .logout-btn {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+            color: #d9083c;
+            font-weight: bold;
+        }
+        .logout-btn:hover {
+            text-decoration: underline;
+            color: #fff;
+        }
+        /* New styling for table spacing */
+        .table-container {
+            margin-bottom: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Admin Dashboard</h1>
+        <h2>Customer List</h2>
+
+        <!-- Customer Table -->
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>S.No</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Age</th>
+                        <th>Height</th>
+                        <th>Weight</th>
+                        <th>Calorie Needs</th>
+                        <th class="actions">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ user.user.username }}</td>
+                        <td>{{ user.user.email }}</td>
+                        <td>{{ user.age }}</td>
+                        <td>{{ user.height }} cm</td>
+                        <td>{{ user.weight }} kg</td>
+                        <td>{{ user.calorie_needs }}</td>
+                        <td class="actions">
+                            <form action="{% url 'delete_user' user.id %}" method="POST">
+                                {% csrf_token %}
+                                <button type="submit">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <a href="{% url 'download_customer_details' %}" class="logout-btn" style="margin-bottom: 20px;">
+                <button type="submit">Download</button>
+            </a>
+        </div>
+
+        <!-- Documents Table -->
+        <h2>Documents</h2>
+        <a href="{% url 'upload_document' %}" style="margin-bottom: 20px;">
+            <button type="submit">Upload Documents</button>
+        </a>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>File</th>
+                        <th>Uploaded At</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for document in documents %}
+                    <tr>
+                        <td>{{ document.title }}</td>
+                        <td><a href="{{ document.file.url }}" class="logout-btn" target="_blank">Download</a></td>
+                        <td>{{ document.uploaded_at }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <a href="{% url 'logout' %}" class="logout-btn">Logout</a>
+    </div>
+</body>
+</html>

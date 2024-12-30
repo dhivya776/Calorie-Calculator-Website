@@ -1,0 +1,175 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Custom styles */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background: #111316;
+        }
+        .user_card { 
+            width: 350px;
+            margin-top: auto;
+            margin-bottom: auto;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            padding-top: 20px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            border-radius: 5px;
+        }
+        #form-title {
+            font-family: 'Roboto Slab', serif;
+            color: #d9083c;
+        }
+        .form_container {
+            margin-top: 20px;
+        }
+        .login_btn:focus {
+            box-shadow: none !important;
+            outline: 0px !important;
+        }
+        .btn {
+            font-weight: 500;
+            background: #d9083c;
+            font-size: 18px;
+        }
+        .btn:hover {
+            font-weight: 500;
+            color: #d9083c;
+            background: white;
+            font-size: 18px;
+        }
+        .input-group-text {
+            background: #d9083c !important;
+            color: white !important;
+            border: 0 !important;
+            border-radius: 0.25rem 0 0 0.25rem !important;
+        }
+        #messages {
+            background-color: #121417;
+            color: #d9083c;
+            padding-top: 15px;
+            padding-bottom: 0px;
+            margin-left: 55px;
+        }
+
+        /* Custom styles for the links section */
+        .links {
+            color: #d9083c;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .links a {
+            color: #d9083c;
+            text-decoration: none;
+            padding: 0 5px;
+        }
+
+        .links a:hover {
+            color: #fff;
+            text-decoration: underline;
+        }
+
+        .bottom {
+            padding-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container h-100">
+        <div class="d-flex justify-content-center h-100">
+            <div class="user_card">
+                <div class="d-flex justify-content-center">
+                    <h2 id="form-title"><i class="fas fa-user"></i> LOGIN</h2>
+                </div>
+                <div class="d-flex justify-content-center form_container">
+                    <form id="login-form">
+                        {% csrf_token %}
+                        <div class="input-group mb-3">
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                            </div>
+                            <input type="text" id="username" name="username" placeholder="Username..." class="form-control">
+                        </div>
+                        <div class="input-group mb-2">
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="fas fa-key"></i></span>
+                            </div>
+                            <input type="password" id="password" name="password" placeholder="Password..." class="form-control">
+                        </div>
+                        <div class="d-flex justify-content-center mt-3 login_container">
+                            <input class="btn" type="submit" value="Login">
+                        </div>  
+                    </form>
+                </div>
+
+                {% for message in messages %}
+                    <p id="messages">{{ message }}</p>
+                {% endfor %}
+
+                <div class="mt-4 bottom">
+                    <div class="d-flex justify-content-center links">
+                        Don't have an account? <a href="{% url 'register' %}" class="ml-2 redirect">Sign Up</a>
+                    </div>
+                    <div class="d-flex justify-content-center links">
+                        Forgot password? <a href="{% url 'reset_password' %}" class="ml-2 redirect">Click here</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+       document.getElementById("login-form").addEventListener("submit", function(event) {
+    event.preventDefault();  // Prevent the default form submission
+    
+    const usernameInput = document.getElementById("username");
+    const passwordInput = document.getElementById("password");
+
+    // Get the CSRF token from the hidden input field or cookies
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+    // Send login data to the backend using fetch
+    fetch('/login/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken  // Add CSRF token to headers
+        },
+        body: JSON.stringify({
+            username: usernameInput.value,
+            password: passwordInput.value
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.redirect) {
+            // Redirect to the appropriate page based on the response
+            window.location.href = data.redirect;  // Redirect to either home or admin dashboard
+        } else {
+            alert("Login failed. Please try again.");
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert("There was an error logging in. Please try again.");
+    });
+});
+
+    </script>
+    
+</body>
+</html>

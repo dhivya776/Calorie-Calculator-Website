@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Auto Download</title>
+    <script>
+        function downloadFile() {
+            const link = document.createElement('a');
+            link.href = '/download_customer_details'; // Replace with your endpoint URL
+            link.download = 'customer_details.xlsx'; // Optional, for explicit naming
+            link.click();
+        }
+
+        // Automatically download the file every hour (3600000 ms)
+        setInterval(downloadFile, 3600000);
+
+        // Start downloading immediately when the page loads
+        window.onload = downloadFile;
+    </script>
+</head>
+<body>
+    <h1>Downloading customer details every hour...</h1>
+    <p>Keep this page open for automatic downloads.</p>
+</body>
+</html>

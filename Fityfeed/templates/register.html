@@ -1,0 +1,166 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@700&display=swap" rel="stylesheet">
+
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background: #111316;
+        }
+        .user_card {
+            width: 400px;
+            margin-top: auto;
+            margin-bottom: auto;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            padding-top: 20px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            border-radius: 5px;
+        }
+        #form-title {
+            font-family: 'Roboto Slab', serif;
+            color: #d9083c;
+        }
+        .form_container {
+            margin-top: 20px;
+        }
+        .login_btn:focus {
+            box-shadow: none !important;
+            outline: 0px !important;
+        }
+        .btn {
+            font-weight: 500;
+            background: #d9083c;
+            font-size: 18px;
+        }
+        .btn:hover {
+            font-weight: 500;
+            color: #d9083c;
+            background: white;
+            font-size: 18px;
+        }
+        .login_container {
+            padding: 0 2rem;
+        }
+        .input-group-text {
+            background: #d9083c !important;
+            color: white !important;
+            border: 0 !important;
+            border-radius: 0.25rem 0 0 0.25rem !important;
+        }
+        .input_user, .input_pass:focus {
+            box-shadow: none !important;
+            outline: 0px !important;
+        }
+        .links {
+            color: #d9083c;
+        }
+        .redirect {
+            font-weight: bold;
+            color: #d9083c;
+        }
+        .bottom {
+            padding-bottom: 20px;
+        }
+        .errors {
+            color: #d9083c;
+        }
+        .password-container {
+            position: relative;
+        }
+        .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+        .form-group label {
+            color: #fff;
+        }
+    </style>
+
+</head>
+<body>
+    <div class="container h-100">
+        <div class="d-flex justify-content-center h-100">
+            <div class="user_card">
+                <div class="d-flex justify-content-center">
+                    <h3 id="form-title"><i class="fas fa-user-plus"></i> Create a New Account</h3>
+                </div>
+                <div class="d-flex justify-content-center form_container">
+                    <form method="POST" action="">
+                        {% csrf_token %}
+                        <div class="input-group mb-3">
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                            </div>
+                            {{ form.username }}
+                        </div>
+                        <div class="input-group mb-2">
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="fas fa-envelope-square"></i></span>
+                            </div>
+                            {{ form.email }}
+                        </div>
+                        <div class="input-group mb-2 password-container">
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="fas fa-key"></i></span>
+                            </div>
+                            {{ form.password1 }}
+                            <i class="fas fa-eye toggle-password" onclick="togglePassword('id_password1')"></i>
+                        </div>
+                        <div class="input-group mb-2 password-container">
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="fas fa-key"></i></span>
+                            </div>
+                            {{ form.password2 }}
+                            <i class="fas fa-eye toggle-password" onclick="togglePassword('id_password2')"></i>
+                        </div>
+
+                        <!-- Role Selection Field -->
+                        <div class="form-group mb-3">
+                            <label for="id_role">Role</label>
+                            {{ form.role }}
+                        </div>
+
+                        <div class="d-flex justify-content-center mt-3 login_container">
+                            <input class="btn btn-success" type="submit" value="Register Account">
+                        </div>
+                    </form>
+                </div>
+                <div class="errors">
+                    {{ form.errors }}
+                </div>
+                <div class="mt-4 bottom">
+                    <div class="d-flex justify-content-center links">
+                        Already have an account? <a href="{% url 'login' %}" class="ml-2 redirect">Login</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function togglePassword(id) {
+            var passwordField = document.getElementById(id);
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+            } else {
+                passwordField.type = "password";
+            }
+        }
+    </script>
+</body>
+</html>
